@@ -44,7 +44,7 @@ namespace DAL.Entities
         /// <summary>
         /// Gets or sets the age of the user in the database.
         /// </summary>
-        public int Age { get; set; }
+        public DateTime BirthDate { get; set; }
 
         /// <summary>
         /// Gets or sets the amount of money in the user's wallet in the database.

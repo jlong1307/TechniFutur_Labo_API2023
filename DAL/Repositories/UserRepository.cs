@@ -36,7 +36,7 @@ namespace DAL.Repositories
                     "@NickName," +
                     "@FirstName," +
                     "@LastName," +
-                    "@Age," +
+                    "@BirthDate," +
                     "@Wallet," +
                     "@RegisterDate," +
                     "@Role," +
@@ -47,7 +47,7 @@ namespace DAL.Repositories
                 cmd.Parameters.AddWithValue("@NickName", entity.Nickname);
                 cmd.Parameters.AddWithValue("@FirstName", entity.FirstName);
                 cmd.Parameters.AddWithValue("@LastName", entity.LastName);
-                cmd.Parameters.AddWithValue("@Age", entity.Age);
+                cmd.Parameters.AddWithValue("@BirthDate", entity.BirthDate);
                 cmd.Parameters.AddWithValue("@Wallet", entity.Wallet);
                 cmd.Parameters.AddWithValue("@RegisterDate", entity.RegisterDate);
                 cmd.Parameters.AddWithValue("@Role", entity.Role);
@@ -118,7 +118,7 @@ namespace DAL.Repositories
                                                 "NickName = @NickName," +
                                                 "FirstName = @FirstName," +
                                                 "LastName = @LastName," +
-                                                "Age = @Age," +
+                                                "BirthDate = @BirthDate," +
                                                 "Wallet = @Wallet," +
                                                 "RegisterDate = @RegisterDate," +
                                                 "Role = @Role," +
@@ -129,7 +129,7 @@ namespace DAL.Repositories
                 cmd.Parameters.AddWithValue("@NickName", entity.Nickname);
                 cmd.Parameters.AddWithValue("@FirstName", entity.FirstName);
                 cmd.Parameters.AddWithValue("@LastName", entity.LastName);
-                cmd.Parameters.AddWithValue("@Age", entity.Age);
+                cmd.Parameters.AddWithValue("@BirthDate", entity.BirthDate);
                 cmd.Parameters.AddWithValue("@Wallet", entity.Wallet);
                 cmd.Parameters.AddWithValue("@RegisterDate", entity.RegisterDate);
                 cmd.Parameters.AddWithValue("@Role", entity.Role);

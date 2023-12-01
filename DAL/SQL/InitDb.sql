@@ -5,7 +5,7 @@
 	[NickName] varchar(255) NOT NULL,
 	[FirstName] varchar(255) NOT NULL,
 	[LastName] varchar(255) NOT NULL,
-	[Age] int NOT NULL,
+	BirthDate DATETIME NOT NULL,
 	[Wallet] Money DEFAULT 0,
 	RegisterDate DATETIME NOT NULL,
 	[Role] int DEFAULT 0,
