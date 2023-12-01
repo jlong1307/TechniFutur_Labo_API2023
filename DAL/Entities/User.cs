@@ -29,7 +29,7 @@ namespace DAL.Entities
         /// <summary>
         /// Gets or sets the nickname of the user in the database.
         /// </summary>
-        public string Nickname { get; set; }
+        public string NickName { get; set; }
 
         /// <summary>
         /// Gets or sets the first name of the user in the database.

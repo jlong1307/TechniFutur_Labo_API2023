@@ -28,9 +28,10 @@ namespace DAL.Repositories
         /// <returns>The created user entity with the assigned identifier.</returns>
         public User? Create(User entity)
         {
+
             using (SqlCommand cmd = new SqlCommand())
             {
-                cmd.CommandText = "INSERT INTO Users OUTPUT inserted.id VALUES(" +
+                cmd.CommandText = "INSERT INTO Users OUTPUT inserted.Id VALUES(" +
                     "@Email," +
                     "@Password," +
                     "@NickName," +
@@ -44,7 +45,7 @@ namespace DAL.Repositories
 
                 cmd.Parameters.AddWithValue("@Email", entity.Email);
                 cmd.Parameters.AddWithValue("@Password", entity.Password);
-                cmd.Parameters.AddWithValue("@NickName", entity.Nickname);
+                cmd.Parameters.AddWithValue("@NickName", entity.NickName);
                 cmd.Parameters.AddWithValue("@FirstName", entity.FirstName);
                 cmd.Parameters.AddWithValue("@LastName", entity.LastName);
                 cmd.Parameters.AddWithValue("@BirthDate", entity.BirthDate);
@@ -53,8 +54,7 @@ namespace DAL.Repositories
                 cmd.Parameters.AddWithValue("@Role", entity.Role);
                 cmd.Parameters.AddWithValue("@Status", entity.Status);
 
-                int insertedId = Convert.ToInt32(cmd.CustomScalar(ConnectionString));
-                entity.Id = insertedId;
+                entity.Id = Convert.ToInt32(cmd.CustomScalar(ConnectionString));
 
                 return entity;
             }
@@ -122,11 +122,11 @@ namespace DAL.Repositories
                                                 "Wallet = @Wallet," +
                                                 "RegisterDate = @RegisterDate," +
                                                 "Role = @Role," +
-                                                "Status = @Status)";
+                                                "Status = @Status";
 
                 cmd.Parameters.AddWithValue("@Email", entity.Email);
                 cmd.Parameters.AddWithValue("@Password", entity.Password);
-                cmd.Parameters.AddWithValue("@NickName", entity.Nickname);
+                cmd.Parameters.AddWithValue("@NickName", entity.NickName);
                 cmd.Parameters.AddWithValue("@FirstName", entity.FirstName);
                 cmd.Parameters.AddWithValue("@LastName", entity.LastName);
                 cmd.Parameters.AddWithValue("@BirthDate", entity.BirthDate);

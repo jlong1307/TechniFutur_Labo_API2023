@@ -1,3 +1,5 @@
+using BLL.Interfaces;
+using BLL.Services;
 using DAL.Interfaces;
 using DAL.Repositories;
 var builder = WebApplication.CreateBuilder(args);
@@ -10,6 +12,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddScoped<IUserRepository, UserRepository>(x => new UserRepository(builder.Configuration.GetConnectionString("Main")));
+builder.Services.AddScoped<IUserService, UserService>();
 
 builder.Services.AddScoped<IGameRepository, GameRepository>(x => new GameRepository(builder.Configuration.GetConnectionString("Main")));
 

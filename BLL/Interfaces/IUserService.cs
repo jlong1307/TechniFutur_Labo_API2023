@@ -14,7 +14,7 @@ namespace BLL.Interfaces
 
         UserDTO GetById(int id);
 
-        UserDTO GetByEmail(string email);
+        //UserDTO GetByEmail(string email);
 
         UserDTO Create(CreateUserForm form);
 

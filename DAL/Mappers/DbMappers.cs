@@ -24,10 +24,11 @@ namespace DAL.Mappers
             {
                 Id = Convert.ToInt32(reader["Id"]),
                 Email = reader["Email"].ToString(),
-                Nickname = reader["NickName"].ToString(),
+                Password = reader["Password"].ToString(),
+                NickName = reader["NickName"].ToString(),
                 FirstName = reader["FirstName"].ToString(),
                 LastName = reader["LastName"].ToString(),
-                BirthDate = Convert.ToDateTime(reader["Age"]),
+                BirthDate = Convert.ToDateTime(reader["BirthDate"]),
                 Wallet = Convert.ToDouble(reader["Wallet"]),
                 RegisterDate = Convert.ToDateTime(reader["RegisterDate"]),
                 Role = Convert.ToInt32(reader["Role"]),

@@ -10,7 +10,8 @@ namespace ToolBox.Enum.UserEnum
     {
         enum UserRole
         {
-            None,
+            User = 0,
+            Dev = 1,
         }
     }
 }
