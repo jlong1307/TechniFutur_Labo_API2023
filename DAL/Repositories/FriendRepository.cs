@@ -100,6 +100,19 @@ namespace DAL.Repositories
             }
         }
 
+        public Friend? GetByIds(int firstId, int secondId)
+        {
+            using (SqlCommand cmd = new SqlCommand())
+            {
+                cmd.CommandText = "SELECT * FROM Friends WHERE UserIdRequester = @UserIdRequester and UserIdRequest = @UserIdRequest";
+
+                cmd.Parameters.AddWithValue("UserIdRequester", firstId);
+                cmd.Parameters.AddWithValue("UserIdRequest", secondId);
+
+
+                return cmd.CustomReader(ConnectionString, x => DbMappers.ToFriend(x)).SingleOrDefault();
+            }
+        }
         /// <summary>
         /// Updates a Friend entity in the database.
         /// </summary>

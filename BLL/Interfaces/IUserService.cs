@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using BLL.Models.DTO;
+using BLL.Models.Forms.FriendForm;
 using BLL.Models.Forms.UserForms;
 
 namespace BLL.Interfaces
@@ -21,6 +22,8 @@ namespace BLL.Interfaces
         bool Update(int id, UpdateUserForm form);
 
         bool Delete(int id);
+
+        public FriendDTO CreateFriend(CreateFriendForm form);
 
     }
 }

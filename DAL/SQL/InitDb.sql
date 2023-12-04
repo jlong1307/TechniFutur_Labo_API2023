@@ -1,8 +1,8 @@
 ﻿CREATE TABLE Users(
 	Id INT PRIMARY KEY IDENTITY,
-	[Email] varchar(255) NOT NULL,
+	[Email] varchar(255) UNIQUE NOT NULL,
 	[Password] varchar(255) NOT NULL,
-	[NickName] varchar(255) NOT NULL,
+	[NickName] varchar(255) UNIQUE NOT NULL,
 	[FirstName] varchar(255) NOT NULL,
 	[LastName] varchar(255) NOT NULL,
 	BirthDate DATETIME NOT NULL,

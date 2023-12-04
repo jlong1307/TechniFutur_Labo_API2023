@@ -10,6 +10,6 @@ namespace DAL.Interfaces
 {
     public interface IFriendRepository :IRepository<int, Friend>
     {
-
+        public Friend? GetByIds(int firstId, int secondId);
     }
 }

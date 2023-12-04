@@ -3,40 +3,42 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using ToolBox.Services;
 
-namespace DAL.Entities
+namespace BLL.Models.DTO
 {
     /// <summary>
-    /// Represents a game in the database with details such as ID, name, version, creation date, and developer user ID.
+    /// Represents a Data Transfer Object (DTO) for game information.
     /// </summary>
-    public class Game
+    public class GameDTO
     {
         /// <summary>
-        /// Gets or sets the unique identifier for the game in the database.
+        /// Gets or sets the unique identifier of the game.
         /// </summary>
         public int Id { get; set; }
 
         /// <summary>
-        /// Gets or sets the name of the game in the database.
+        /// Gets or sets the name of the game.
         /// </summary>
         public string Name { get; set; }
 
         /// <summary>
-        /// Gets or sets the version of the game in the database.
+        /// Gets or sets the version of the game.
         /// </summary>
         public string Version { get; set; }
 
         /// <summary>
-        /// Gets or sets the date when the game was created in the database.
+        /// Gets or sets the creation date of the game.
         /// </summary>
         public DateTime CreationDate { get; set; }
 
         /// <summary>
-        /// Gets or sets the user ID of the developer who created the game.
+        /// Gets or sets the user identifier of the game developer.
         /// </summary>
         public int UserIdDev { get; set; }
 
+        /// <summary>
+        /// Gets or sets the status identifier of the game.
+        /// </summary>
         public int Status { get; set; }
     }
 

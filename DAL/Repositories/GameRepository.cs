@@ -29,16 +29,18 @@ namespace DAL.Repositories
         {
             using (SqlCommand cmd = new SqlCommand())
             {
-                cmd.CommandText = "INSERT INTO Game OUTPUT inserted.id VALUES(" +
+                cmd.CommandText = "INSERT INTO Game OUTPUT inserted.Id VALUES(" +
                     "@Name," +
                     "@Version," +
                     "@CreationDate," +
-                    "@UserIdDev";
+                    "@UserIdDev," +
+                    "@Status)";
 
                 cmd.Parameters.AddWithValue("@Name", entity.Name);
                 cmd.Parameters.AddWithValue("@Version", entity.Version);
                 cmd.Parameters.AddWithValue("@CreationDate", entity.CreationDate);
                 cmd.Parameters.AddWithValue("@UserIdDev", entity.UserIdDev);
+                cmd.Parameters.AddWithValue("@Status", entity.Status);
 
                 int insertedId = Convert.ToInt32(cmd.CustomScalar(ConnectionString));
                 entity.Id = insertedId;
@@ -99,16 +101,17 @@ namespace DAL.Repositories
             using (SqlCommand cmd = new SqlCommand())
             {
                 cmd.CommandText = "UPDATE Game SET " +
-                                                "@Name," +
-                                                "@Version," +
-                                                "@CreationDate," +
-                                                "@UserIdDev";
+                                                "Name = @Name," +
+                                                "Version = @Version," +
+                                                "CreationDate = @CreationDate," +
+                                                "UserIdDev = @UserIdDev," +
+                                                "Status = @Status";
 
                 cmd.Parameters.AddWithValue("@Name", entity.Name);
                 cmd.Parameters.AddWithValue("@Version", entity.Version);
                 cmd.Parameters.AddWithValue("@CreationDate", entity.CreationDate);
                 cmd.Parameters.AddWithValue("@UserIdDev", entity.UserIdDev);
-
+                cmd.Parameters.AddWithValue("@Status", entity.Status);
                 return cmd.CustomNonQuery(ConnectionString) == 1;
             }
         }

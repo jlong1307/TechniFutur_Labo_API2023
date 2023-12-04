@@ -103,6 +103,35 @@ namespace DAL.Repositories
                 return cmd.CustomReader(ConnectionString, x => DbMappers.ToUser(x)).SingleOrDefault();
             }
         }
+
+        public User? GetByNickName(string nickName)
+        {
+            using (SqlCommand cmd = new SqlCommand())
+            {
+                cmd.CommandText = "Select * FROM Users WHERE NickName = @NickName";
+
+                cmd.Parameters.AddWithValue("@NickName", nickName);
+
+                return cmd.CustomReader(ConnectionString, x => DbMappers.ToUser(x)).SingleOrDefault();
+            }
+        }
+
+        /// <summary>
+        /// Retrieves a user record from the 'Users' table based on the specified identifier.
+        /// </summary>
+        /// <param name="id">The email of the user to retrieve.</param>
+        /// <returns>The user entity with the specified identifier, or null if not found.</returns>
+        public User? GetByEmail(string email)
+        {
+            using (SqlCommand cmd = new SqlCommand())
+            {
+                cmd.CommandText = "Select * FROM Users WHERE Email = @email";
+
+                cmd.Parameters.AddWithValue("email", email);
+
+                return cmd.CustomReader(ConnectionString, x => DbMappers.ToUser(x)).SingleOrDefault();
+            }
+        }
         /// <summary>
         /// Updates an existing user record in the 'Users' table.
         /// </summary>

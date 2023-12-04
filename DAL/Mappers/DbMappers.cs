@@ -49,7 +49,8 @@ namespace DAL.Mappers
                 Name = reader["Name"].ToString(),
                 Version = reader["Version"].ToString(),
                 CreationDate = Convert.ToDateTime(reader["CreationDate"]),
-                UserIdDev = Convert.ToInt32(reader["UserIdDev"])
+                UserIdDev = Convert.ToInt32(reader["UserIdDev"]),
+                Status = Convert.ToInt32(reader["Status"]),
             };
         }
 

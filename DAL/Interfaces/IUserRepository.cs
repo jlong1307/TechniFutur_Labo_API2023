@@ -10,6 +10,7 @@ namespace DAL.Interfaces
 {
     public interface IUserRepository : IRepository<int, User>
     {
-
+        public User? GetByEmail(string email);
+        public User? GetByNickName(string nickName);
     }
 }
