@@ -105,13 +105,15 @@ namespace DAL.Repositories
                                                 "Version = @Version," +
                                                 "CreationDate = @CreationDate," +
                                                 "UserIdDev = @UserIdDev," +
-                                                "Status = @Status";
+                                                "Status = @Status WHERE Id = @id";
 
                 cmd.Parameters.AddWithValue("@Name", entity.Name);
                 cmd.Parameters.AddWithValue("@Version", entity.Version);
                 cmd.Parameters.AddWithValue("@CreationDate", entity.CreationDate);
                 cmd.Parameters.AddWithValue("@UserIdDev", entity.UserIdDev);
                 cmd.Parameters.AddWithValue("@Status", entity.Status);
+                cmd.Parameters.AddWithValue("@id", entity.Id);
+
                 return cmd.CustomNonQuery(ConnectionString) == 1;
             }
         }

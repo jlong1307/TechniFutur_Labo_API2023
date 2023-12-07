@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BLL.Models.Forms.FriendForm
+namespace BLL.Models.Forms.UserForms
 {
-    public class CreateFriendForm
+    public class UpdateWalletForm
     {
-        public string UserNickNameRequest {  get; set; }
+        public double Wallet {  get; set; }
     }
 }

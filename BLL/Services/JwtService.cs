@@ -1,4 +1,5 @@
-﻿using DAL.Entities;
+﻿using BLL.Interfaces;
+using DAL.Entities;
 using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
@@ -11,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace BLL.Services
 {
-    public class JwtService
+    public class JwtService : IJwtService
     {
         private readonly string SecretKey;
         private readonly string ExpiresDays;
@@ -43,6 +44,7 @@ namespace BLL.Services
             // Create a list of claims for the JWT token, including the user's identifier.
             List<Claim> claims = new List<Claim>();
             claims.Add(new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()));
+            claims.Add(new Claim(ClaimTypes.Role, user.Role.ToString()));
 
             // Create a new JWT token with the specified claims, expiration date, and signing credentials.
             var token = new JwtSecurityToken(claims: claims, expires: DateTime.Now.AddDays(Convert.ToUInt32(ExpiresDays)), signingCredentials: credentials);

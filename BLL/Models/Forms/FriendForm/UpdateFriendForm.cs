@@ -8,8 +8,6 @@ namespace BLL.Models.Forms.FriendForm
 {
     public class UpdateFriendForm
     {
-        public int Status { get; set; }
-        public int UserIdRequester { get; set; }
-        public int UserIdRequest { get; set; }
+        public string UserIdRequester { get; set; }
     }
 }

@@ -125,7 +125,7 @@ namespace DAL.Repositories
                 cmd.CommandText = "UPDATE Friends SET " +
                     "Status = @Status," +
                     "UserIdRequester = @UserIdRequester," +
-                    "UserIdRequest = @UserIdRequest";
+                    "UserIdRequest = @UserIdRequest WHERE UserIdRequester = @UserIdRequester AND UserIdRequest = @UserIdRequest";
 
                 cmd.Parameters.AddWithValue("@Status", entity.Status);
                 cmd.Parameters.AddWithValue("@UserIdRequester", entity.UserIdRequester);

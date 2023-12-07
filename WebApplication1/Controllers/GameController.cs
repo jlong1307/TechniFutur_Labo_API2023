@@ -2,6 +2,7 @@
 using BLL.Models.DTO;
 using BLL.Models.Forms.GameForms;
 using BLL.Models.Forms.UserForms;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -30,6 +31,7 @@ namespace ApiSteam.Controllers
         /// </summary>
         /// <returns>An action result containing a list of GameDTOs or BadRequest if unsuccessful.</returns>
         [HttpGet]
+
         public ActionResult<IEnumerable<GameDTO>> GetAll()
         {
             return Ok(_gameService.GetAll());
@@ -54,6 +56,7 @@ namespace ApiSteam.Controllers
         /// <param name="form">The CreateGameForm containing game information.</param>
         /// <returns>An action result containing the created GameDTO or BadRequest if unsuccessful.</returns>
         [HttpPost]
+        [Authorize(Roles = "1")]
         public ActionResult<GameDTO> Create(CreateGameForm form)
         {
             GameDTO gameDTO = _gameService.Create(form);

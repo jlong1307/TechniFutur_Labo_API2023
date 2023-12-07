@@ -151,7 +151,7 @@ namespace DAL.Repositories
                                                 "Wallet = @Wallet," +
                                                 "RegisterDate = @RegisterDate," +
                                                 "Role = @Role," +
-                                                "Status = @Status";
+                                                "Status = @Status WHERE Id = @id";
 
                 cmd.Parameters.AddWithValue("@Email", entity.Email);
                 cmd.Parameters.AddWithValue("@Password", entity.Password);
@@ -163,6 +163,7 @@ namespace DAL.Repositories
                 cmd.Parameters.AddWithValue("@RegisterDate", entity.RegisterDate);
                 cmd.Parameters.AddWithValue("@Role", entity.Role);
                 cmd.Parameters.AddWithValue("@Status", entity.Status);
+                cmd.Parameters.AddWithValue("@id", entity.Id);
 
                 return cmd.CustomNonQuery(ConnectionString) == 1;
             }

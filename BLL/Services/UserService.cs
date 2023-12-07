@@ -131,12 +131,12 @@ namespace BLL.Services
             return _userRepository.Update(user);
         }
 
-        public FriendDTO CreateFriend(CreateFriendForm form)
+        public FriendDTO CreateFriend(int id, CreateFriendForm form)
         {
-            User? firstUser = _userRepository.GetByNickName(form.UserNickNameRequester);
+            User? firstUser = _userRepository.GetById(id);
             User? secondUser = _userRepository.GetByNickName(form.UserNickNameRequest);
 
-            if (firstUser is null || secondUser is null)
+            if (firstUser is null || secondUser is null || form is null)
                 return null;
 
             foreach (Friend friend in _friendRepository.GetAll())
@@ -153,6 +153,70 @@ namespace BLL.Services
                 UserIdRequest = secondUser.Id,
             };
             return _friendRepository.Create(tmpFriend).ToFriendDTO(firstUser.NickName, secondUser.NickName);
+        }
+
+        public IEnumerable<FriendDTO> GetAllFriend(int id)
+        {
+            return _friendRepository.GetAll().Where(x => x.UserIdRequester == id || x.UserIdRequest == id)
+                                        .Select(x => x.ToFriendDTO(_userRepository.GetById(x.UserIdRequester).NickName,
+                                                                    _userRepository.GetById(x.UserIdRequest).NickName));
+        }
+
+        public bool UpdateStatusFriend(int id, int status, UpdateFriendForm form)
+        {
+            User? firstUser = _userRepository.GetById(id);
+            User? secondUser = _userRepository.GetByNickName(form.UserIdRequester);
+
+            if (firstUser is null || secondUser is null || form is null)
+                return false;
+
+            Friend tmpFriend = new Friend
+            {
+                Status = status,
+                UserIdRequester = firstUser.Id,
+                UserIdRequest = secondUser.Id,
+            };
+            return _friendRepository.Update(tmpFriend);
+        }
+
+
+        public bool UpdateUserPwrd(int id, UpdatePwrdForm form)
+        {
+            User? user = _userRepository.GetById(id);
+
+            if (user is null || form is null)
+                return false;
+
+            user.Password = BCrypt.Net.BCrypt.HashPassword(form.Password);
+
+            return _userRepository.Update(user);
+        }
+
+        public bool UpdateUserWallet(int id, UpdateWalletForm form)
+        {
+            User? user = _userRepository.GetById(id);
+
+            if (user is null || form is null)
+                return false;
+
+            user.Wallet = form.Wallet;
+
+            return _userRepository.Update(user);
+        }
+
+        public bool UpdateUserNckname(int id, UpdateNckNameForm form)
+        {
+            User? user = _userRepository.GetById(id);
+
+            if (user is null || form is null)
+                return false;
+
+            foreach(User u in _userRepository.GetAll())
+                if (u.NickName == form.NewNckName)
+                    return false;
+
+            user.NickName = form.NewNckName;
+            return _userRepository.Update(user);
         }
     }
 }

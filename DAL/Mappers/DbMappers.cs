@@ -63,7 +63,7 @@ namespace DAL.Mappers
         {
             return new Friend
             {
-                Status = Convert.ToInt32(reader["Id"]),
+                Status = Convert.ToInt32(reader["Status"]),
                 UserIdRequester = Convert.ToInt32(reader["UserIdRequester"]),
                 UserIdRequest = Convert.ToInt32(reader["UserIdRequest"]),
             };

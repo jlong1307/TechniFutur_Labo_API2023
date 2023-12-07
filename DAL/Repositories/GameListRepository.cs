@@ -117,7 +117,7 @@ namespace DAL.Repositories
                     "PurchaseDate = @PurchaseDate," +
                     "PlayTime = @PlayTime, " +
                     "Status = @Status, " +
-                    "GiftUserId = @GiftUserId";
+                    "GiftUserId = @GiftUserId WHERE Id = @id";
 
                 cmd.Parameters.AddWithValue("@UserId", entity.UserId);
                 cmd.Parameters.AddWithValue("@GameId", entity.GameId);
@@ -125,6 +125,7 @@ namespace DAL.Repositories
                 cmd.Parameters.AddWithValue("@PlayTime", entity.PlayTime);
                 cmd.Parameters.AddWithValue("@Status", entity.Status);
                 cmd.Parameters.AddWithValue("@GiftUserId", entity.GiftUserId);
+                cmd.Parameters.AddWithValue("@id", entity.Id);
 
                 return cmd.CustomNonQuery(ConnectionString) == 1;
             }
