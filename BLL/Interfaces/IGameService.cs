@@ -11,10 +11,10 @@ namespace BLL.Interfaces
     public interface IGameService
     {
         IEnumerable<GameDTO> GetAll();
-
+        public IEnumerable<GameDTO> GetAll(int id);
         GameDTO GetById(int id);
 
-        GameDTO Create(CreateGameForm form);
+        GameDTO Create(int id, CreateGameForm form);
 
         bool Update(int id, UpdateGameForm form);
 

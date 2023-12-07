@@ -62,8 +62,10 @@ namespace BLL.Mappers
                 Id = 0,
                 Name = createGameForm.Name,
                 Version = createGameForm.Version,
-                CreationDate = createGameForm.CreationDate,
-                UserIdDev = createGameForm.UserIdDev
+                CreationDate = DateTime.Now,
+                UserIdDev = 0,
+                Status = 1
+                
             };
         }
 

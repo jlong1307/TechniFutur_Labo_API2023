@@ -5,6 +5,7 @@ using BLL.Models.Forms.UserForms;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace ApiSteam.Controllers
 {
@@ -31,10 +32,19 @@ namespace ApiSteam.Controllers
         /// </summary>
         /// <returns>An action result containing a list of GameDTOs or BadRequest if unsuccessful.</returns>
         [HttpGet]
-
+        [AllowAnonymous]
         public ActionResult<IEnumerable<GameDTO>> GetAll()
         {
             return Ok(_gameService.GetAll());
+        }
+
+        [HttpGet("GetAllByDev")]
+        public ActionResult<IEnumerable<GameDTO>> GetAllByDev()
+        {
+            var claim = User.Claims.Single(x => x.Type == ClaimTypes.NameIdentifier);
+            int id = Convert.ToInt32(claim.Value);
+
+            return Ok(_gameService.GetAll(id));
         }
 
         /// <summary>
@@ -59,7 +69,10 @@ namespace ApiSteam.Controllers
         [Authorize(Roles = "1")]
         public ActionResult<GameDTO> Create(CreateGameForm form)
         {
-            GameDTO gameDTO = _gameService.Create(form);
+            var claim = User.Claims.Single(x => x.Type == ClaimTypes.NameIdentifier);
+            int id = Convert.ToInt32(claim.Value);
+
+            GameDTO gameDTO = _gameService.Create(id, form);
 
             return gameDTO is null ? BadRequest() : Ok(gameDTO);
         }

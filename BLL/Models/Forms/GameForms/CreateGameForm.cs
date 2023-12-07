@@ -21,15 +21,6 @@ namespace BLL.Models.Forms.GameForms
         /// </summary>
         public string Version { get; set; }
 
-        /// <summary>
-        /// Gets or sets the creation date of the new game.
-        /// </summary>
-        public DateTime CreationDate { get; set; }
-
-        /// <summary>
-        /// Gets or sets the user identifier of the game developer.
-        /// </summary>
-        public int UserIdDev { get; set; }
     }
 
 }

@@ -25,11 +25,12 @@ namespace BLL.Services
         /// </summary>
         /// <param name="form">The CreateGameForm containing game information.</param>
         /// <returns>The created game converted to a GameDTO.</returns>
-        public GameDTO Create(CreateGameForm form)
+        public GameDTO Create(int id, CreateGameForm form)
         {
-            // Create a new game using the provided form, save it in the repository,
-            // and convert the result to a GameDTO before returning it.
-            return _gameRepository.Create(form.ToGame()).ToGameDTO();
+            Game? game = form.ToGame();
+            game.UserIdDev = id;
+
+            return _gameRepository.Create(game).ToGameDTO();
         }
 
         /// <summary>
@@ -56,8 +57,12 @@ namespace BLL.Services
         /// <returns>An IEnumerable of GameDTO representing all games.</returns>
         public IEnumerable<GameDTO> GetAll()
         {
-            // Retrieve all games from the repository, and convert each to GameDTO.
             return _gameRepository.GetAll().Select(x => x.ToGameDTO());
+        }
+
+        public IEnumerable<GameDTO> GetAll(int id)
+        {
+            return _gameRepository.GetAll().Where(x => x.UserIdDev == id).Select(x => x.ToGameDTO());
         }
 
         /// <summary>
