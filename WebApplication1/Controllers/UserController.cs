@@ -1,6 +1,7 @@
 ﻿using BLL.Interfaces;
 using BLL.Models.DTO;
 using BLL.Models.Forms.FriendForm;
+using BLL.Models.Forms.GameForms;
 using BLL.Models.Forms.UserForms;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -37,14 +38,29 @@ namespace ApiSteam.Controllers
         {
             return Ok(_userService.GetAll());
         }
+
+        /// <summary>
+        /// Gets the friends of the current user.
+        /// </summary>
+        /// <returns>An action result containing a list of FriendDTOs or BadRequest if unsuccessful.</returns>
         [HttpGet("GetFriends")]
-        public ActionResult<IEnumerable<FriendDTO>> GetFriends() 
+        public ActionResult<IEnumerable<FriendDTO>> GetFriends()
         {
             var claim = User.Claims.Single(x => x.Type == ClaimTypes.NameIdentifier);
             int id = Convert.ToInt32(claim.Value);
 
             return Ok(_userService.GetAllFriend(id));
         }
+
+        [HttpGet("GetMyGame")]
+        public IActionResult getMyGame()
+        {
+            var claim = User.Claims.Single(x => x.Type == ClaimTypes.NameIdentifier);
+            int id = Convert.ToInt32(claim.Value);
+
+            return Ok(_userService.GetMyGame(id));
+        }
+
         /// <summary>
         /// Gets a user by their unique identifier.
         /// </summary>
@@ -73,6 +89,11 @@ namespace ApiSteam.Controllers
             return userDTO is null ? BadRequest() : Ok(userDTO);
         }
 
+        /// <summary>
+        /// Sends a friend request from the current user to another user.
+        /// </summary>
+        /// <param name="form">The CreateFriendForm containing friend request information.</param>
+        /// <returns>An action result containing the created FriendDTO or BadRequest if unsuccessful.</returns>
         [HttpPost("FriendRequest")]
         public ActionResult<FriendDTO> FriendRequest(CreateFriendForm form)
         {
@@ -84,7 +105,22 @@ namespace ApiSteam.Controllers
             return friendDTO is null ? BadRequest() : Ok(friendDTO);
         }
 
+        [HttpPost("BuyGame")]
+        public ActionResult<GameListDTO> BuyGame(CreateGameRelationForm form)
+        {
+            var claim = User.Claims.Single(x => x.Type == ClaimTypes.NameIdentifier);
+            int id = Convert.ToInt32(claim.Value);
 
+            GameListDTO gameListDTO = _userService.BuyGame(id, form);
+
+            return gameListDTO is null ? BadRequest() : Ok(gameListDTO);
+        }
+
+        /// <summary>
+        /// Updates the password of the current user.
+        /// </summary>
+        /// <param name="form">The UpdatePwrdForm containing the new password.</param>
+        /// <returns>NoContent if the update is successful, BadRequest otherwise.</returns>
         [HttpPatch("UpdatePwrd")]
         public IActionResult UpdatePwrd(UpdatePwrdForm form)
         {
@@ -94,6 +130,11 @@ namespace ApiSteam.Controllers
             return _userService.UpdateUserPwrd(id, form) ? NoContent() : BadRequest();
         }
 
+        /// <summary>
+        /// Updates the nickname of the current user.
+        /// </summary>
+        /// <param name="form">The UpdateNckNameForm containing the new nickname.</param>
+        /// <returns>NoContent if the update is successful, BadRequest otherwise.</returns>
         [HttpPatch("UpdateNckName")]
         public IActionResult UpdateNckName(UpdateNckNameForm form)
         {
@@ -103,6 +144,11 @@ namespace ApiSteam.Controllers
             return _userService.UpdateUserNckname(id, form) ? NoContent() : BadRequest();
         }
 
+        /// <summary>
+        /// Updates the wallet information of the current user.
+        /// </summary>
+        /// <param name="form">The UpdateWalletForm containing the new wallet information.</param>
+        /// <returns>NoContent if the update is successful, BadRequest otherwise.</returns>
         [HttpPatch("UpdateWallet")]
         public IActionResult UpdateWallet(UpdateWalletForm form)
         {
@@ -112,6 +158,11 @@ namespace ApiSteam.Controllers
             return _userService.UpdateUserWallet(id, form) ? NoContent() : BadRequest();
         }
 
+        /// <summary>
+        /// Accepts a friend request from another user.
+        /// </summary>
+        /// <param name="form">The UpdateFriendForm containing friend request acceptance information.</param>
+        /// <returns>NoContent if the update is successful, BadRequest otherwise.</returns>
         [HttpPatch("AcceptFriend")]
         public IActionResult AcceptFriend(UpdateFriendForm form)
         {
@@ -121,6 +172,11 @@ namespace ApiSteam.Controllers
             return _userService.UpdateStatusFriend(id, 1, form) ? NoContent() : BadRequest();
         }
 
+        /// <summary>
+        /// Deletes a friend connection with another user.
+        /// </summary>
+        /// <param name="form">The UpdateFriendForm containing friend deletion information.</param>
+        /// <returns>NoContent if the deletion is successful, BadRequest otherwise.</returns>
         [HttpPatch("DeleteFriend")]
         public IActionResult DeleteFriend(UpdateFriendForm form)
         {
@@ -153,5 +209,6 @@ namespace ApiSteam.Controllers
             return _userService.Delete(id) ? NoContent() : BadRequest();
         }
     }
+
 
 }

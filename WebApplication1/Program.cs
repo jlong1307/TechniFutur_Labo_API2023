@@ -15,16 +15,23 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-//builder.Services.AddScoped<IUserRepository, UserRepository>(x => new UserRepository(builder.Configuration.GetConnectionString("Main")));
-builder.Services.AddScoped<IUserRepository, UserRepository>(x => new UserRepository(builder.Configuration.GetConnectionString("second")));
+builder.Services.AddScoped<IUserRepository, UserRepository>(x => new UserRepository(builder.Configuration.GetConnectionString("Main")));
+//builder.Services.AddScoped<IUserRepository, UserRepository>(x => new UserRepository(builder.Configuration.GetConnectionString("second")));
 builder.Services.AddScoped<IUserService, UserService>();
 
-//builder.Services.AddScoped<IGameRepository, GameRepository>(x => new GameRepository(builder.Configuration.GetConnectionString("Main")));
-builder.Services.AddScoped<IGameRepository, GameRepository>(x => new GameRepository(builder.Configuration.GetConnectionString("second")));
+builder.Services.AddScoped<IGameRepository, GameRepository>(x => new GameRepository(builder.Configuration.GetConnectionString("Main")));
+//builder.Services.AddScoped<IGameRepository, GameRepository>(x => new GameRepository(builder.Configuration.GetConnectionString("second")));
 builder.Services.AddScoped<IGameService, GameService>();
 
-//builder.Services.AddScoped<IFriendRepository, FriendRepository>(x => new FriendRepository(builder.Configuration.GetConnectionString("Main")));
-builder.Services.AddScoped<IFriendRepository, FriendRepository>(x => new FriendRepository(builder.Configuration.GetConnectionString("second")));
+builder.Services.AddScoped<IFriendRepository, FriendRepository>(x => new FriendRepository(builder.Configuration.GetConnectionString("Main")));
+
+builder.Services.AddScoped<IGameRepository, GameRepository>(x => new GameRepository(builder.Configuration.GetConnectionString("Main")));
+
+builder.Services.AddScoped<IGameListRepository, GameListRepository>(x => new GameListRepository(builder.Configuration.GetConnectionString("Main")));
+
+builder.Services.AddScoped<IPriceRepository, PriceRepository>(x => new PriceRepository(builder.Configuration.GetConnectionString("Main")));
+
+//builder.Services.AddScoped<IFriendRepository, FriendRepository>(x => new FriendRepository(builder.Configuration.GetConnectionString("second")));
 
 
 builder.Services.AddScoped<IAuthService, AuthService>();

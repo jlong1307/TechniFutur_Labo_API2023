@@ -10,6 +10,6 @@ namespace DAL.Interfaces
 {
     public interface IGameRepository : IRepository<int, Game>
     {
-
+        public double GetPrice(string title);
     }
 }

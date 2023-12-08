@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using BLL.Models.DTO;
 using BLL.Models.Forms.FriendForm;
+using BLL.Models.Forms.GameForms;
 using BLL.Models.Forms.UserForms;
 using DAL.Entities;
 
@@ -27,5 +28,8 @@ namespace BLL.Interfaces
         public bool UpdateUserPwrd(int id, UpdatePwrdForm form);
         public bool UpdateUserWallet(int id, UpdateWalletForm form);
         public bool UpdateUserNckname(int id, UpdateNckNameForm form);
+
+        public GameListDTO BuyGame(int id, CreateGameRelationForm form);
+        public IEnumerable<GameListDTO> GetMyGame(int id);
     }
 }

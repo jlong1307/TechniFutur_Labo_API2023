@@ -20,7 +20,8 @@ namespace BLL.Models.Forms.GameForms
         /// Gets or sets the version of the new game.
         /// </summary>
         public string Version { get; set; }
+        public double Price { get; set; }
+
 
     }
-
 }

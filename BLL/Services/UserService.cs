@@ -12,6 +12,7 @@ using DAL.Interfaces;
 using Microsoft.Identity.Client;
 using BLL.Models.Forms.FriendForm;
 using DAL.Repositories;
+using BLL.Models.Forms.GameForms;
 
 namespace BLL.Services
 {
@@ -19,13 +20,17 @@ namespace BLL.Services
     {
         private readonly IUserRepository _userRepository;
         private readonly IFriendRepository _friendRepository;
+        private readonly IGameRepository _gameRepository;
+        private readonly IGameListRepository _gameListRepository;
         /// <summary>
         /// Constructor to initialize the UserService with an IUserRepository instance.
         /// </summary>
-        public UserService(IUserRepository userRepository, IFriendRepository friendRepository)
+        public UserService(IUserRepository userRepository, IFriendRepository friendRepository, IGameRepository gameRepository, IGameListRepository gameListRepository)
         {
             _userRepository = userRepository;
             _friendRepository = friendRepository;
+            _gameRepository = gameRepository;
+            _gameListRepository = gameListRepository;
         }
 
         /// <summary>
@@ -131,6 +136,12 @@ namespace BLL.Services
             return _userRepository.Update(user);
         }
 
+        /// <summary>
+        /// Creates a friend connection between two users based on the provided form and user ID.
+        /// </summary>
+        /// <param name="id">The user ID initiating the friend request.</param>
+        /// <param name="form">The form containing friend request details.</param>
+        /// <returns>A FriendDTO if the friend connection is successfully created, otherwise null.</returns>
         public FriendDTO CreateFriend(int id, CreateFriendForm form)
         {
             User? firstUser = _userRepository.GetById(id);
@@ -155,6 +166,11 @@ namespace BLL.Services
             return _friendRepository.Create(tmpFriend).ToFriendDTO(firstUser.NickName, secondUser.NickName);
         }
 
+        /// <summary>
+        /// Retrieves all friend connections for a given user ID.
+        /// </summary>
+        /// <param name="id">The user ID for which to retrieve friend connections.</param>
+        /// <returns>An IEnumerable of FriendDTO representing all friend connections for the specified user.</returns>
         public IEnumerable<FriendDTO> GetAllFriend(int id)
         {
             return _friendRepository.GetAll().Where(x => x.UserIdRequester == id || x.UserIdRequest == id)
@@ -162,6 +178,13 @@ namespace BLL.Services
                                                                     _userRepository.GetById(x.UserIdRequest).NickName));
         }
 
+        /// <summary>
+        /// Updates the status of a friend connection based on the provided form and user ID.
+        /// </summary>
+        /// <param name="id">The user ID initiating the status update.</param>
+        /// <param name="status">The new status code for the friend connection.</param>
+        /// <param name="form">The form containing details for updating the friend connection status.</param>
+        /// <returns>True if the status update is successful, otherwise false.</returns>
         public bool UpdateStatusFriend(int id, int status, UpdateFriendForm form)
         {
             User? firstUser = _userRepository.GetById(id);
@@ -179,7 +202,12 @@ namespace BLL.Services
             return _friendRepository.Update(tmpFriend);
         }
 
-
+        /// <summary>
+        /// Updates the password of a user based on the provided form and user ID.
+        /// </summary>
+        /// <param name="id">The user ID for which to update the password.</param>
+        /// <param name="form">The form containing the new password.</param>
+        /// <returns>True if the password update is successful, otherwise false.</returns>
         public bool UpdateUserPwrd(int id, UpdatePwrdForm form)
         {
             User? user = _userRepository.GetById(id);
@@ -191,7 +219,12 @@ namespace BLL.Services
 
             return _userRepository.Update(user);
         }
-
+        /// <summary>
+        /// Updates the wallet information of a user based on the provided form and user ID.
+        /// </summary>
+        /// <param name="id">The user ID for which to update the wallet information.</param>
+        /// <param name="form">The form containing the new wallet information.</param>
+        /// <returns>True if the wallet update is successful, otherwise false.</returns>
         public bool UpdateUserWallet(int id, UpdateWalletForm form)
         {
             User? user = _userRepository.GetById(id);
@@ -203,7 +236,12 @@ namespace BLL.Services
 
             return _userRepository.Update(user);
         }
-
+        /// <summary>
+        /// Updates the nickname of a user based on the provided form and user ID.
+        /// </summary>
+        /// <param name="id">The user ID for which to update the nickname.</param>
+        /// <param name="form">The form containing the new nickname.</param>
+        /// <returns>True if the nickname update is successful, otherwise false.</returns>
         public bool UpdateUserNckname(int id, UpdateNckNameForm form)
         {
             User? user = _userRepository.GetById(id);
@@ -217,6 +255,38 @@ namespace BLL.Services
 
             user.NickName = form.NewNckName;
             return _userRepository.Update(user);
+        }
+
+        public GameListDTO BuyGame(int id, CreateGameRelationForm form)
+        {
+            User? user = _userRepository.GetById(id);
+            User? userB = _userRepository.GetById(form.GiftUserId);
+
+            Game? game = _gameRepository.GetById(form.GameId);
+
+            if (user is null && userB is null && game is null)
+                return null;
+
+            foreach(GameList gameList in _gameListRepository.GetAll())
+            {
+                if (gameList.GameId == form.GameId && gameList.GiftUserId == form.GiftUserId)
+                    return null;
+            }
+
+            double price = _gameRepository.GetPrice(game.Name);
+
+            if (user.Wallet < price)
+                return null;
+
+            UpdateUserWallet(user.Id, new UpdateWalletForm {Wallet = user.Wallet - price });
+
+            return _gameListRepository.Create(form.ToGameList(id)).ToGameListDTO();
+        }
+
+        public IEnumerable<GameListDTO> GetMyGame(int id)
+        {
+            return _gameListRepository.GetAll().Where(x => x.GiftUserId == id)
+                                        .Select(x => x.ToGameListDTO());
         }
     }
 }

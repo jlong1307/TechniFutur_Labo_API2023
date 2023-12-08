@@ -10,14 +10,16 @@ namespace BLL.Services
     public class GameService : IGameService
     {
         private readonly IGameRepository _gameRepository;
+        private readonly IPriceRepository _priceRepository;
 
         /// <summary>
         /// Initializes a new instance of the GameService class.
         /// </summary>
         /// <param name="gameRepository">The repository for game-related data access.</param>
-        public GameService(IGameRepository gameRepository)
+        public GameService(IGameRepository gameRepository, IPriceRepository priceRepository)
         {
             _gameRepository = gameRepository;
+            _priceRepository = priceRepository;
         }
 
         /// <summary>
@@ -27,10 +29,37 @@ namespace BLL.Services
         /// <returns>The created game converted to a GameDTO.</returns>
         public GameDTO Create(int id, CreateGameForm form)
         {
-            Game? game = form.ToGame();
-            game.UserIdDev = id;
+            Game? game = new Game
+            {
+                Id = 0,
+                Name = form.Name,
+                Version = form.Version,
+                CreationDate = DateTime.Now,
+                UserIdDev = id,
+                Status = 1,
+            };
 
-            return _gameRepository.Create(game).ToGameDTO();
+            foreach(Game g in _gameRepository.GetAll())
+            {
+                if (g.Name == form.Name)
+                    return null;
+            }
+
+            game = _gameRepository.Create(game);
+
+            if (game is null)
+                return null;
+
+            Prices price = new Prices
+            {
+                Id = 0,
+                GameId = game.Id,
+                PriceDate = game.CreationDate,
+                Price = form.Price,
+            };
+
+            _priceRepository.Create(price);
+            return game.ToGameDTO();
         }
 
         /// <summary>

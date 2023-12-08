@@ -117,5 +117,18 @@ namespace DAL.Repositories
                 return cmd.CustomNonQuery(ConnectionString) == 1;
             }
         }
+
+        public double GetPrice(string title)
+        {
+            using (SqlCommand cmd = new SqlCommand())
+            {
+                cmd.CommandText =
+                    "SELECT TOP 1 Price FROM Prices JOIN Game G ON G.Id = Prices.GameId WHERE Name = @Name ORDER BY PriceDate DESC";
+
+                cmd.Parameters.AddWithValue("Name", title);
+
+                return Convert.ToDouble(cmd.CustomScalar(ConnectionString));
+            }
+        }
     }
 }
