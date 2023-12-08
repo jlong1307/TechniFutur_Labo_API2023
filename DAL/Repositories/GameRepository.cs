@@ -75,6 +75,17 @@ namespace DAL.Repositories
                 return cmd.CustomReader(ConnectionString, x => DbMappers.ToGame(x));
             }
         }
+
+        public IEnumerable<Game> GetAllById(int id)
+        {
+            using (SqlCommand cmd = new SqlCommand())
+            {
+                cmd.CommandText = "SELECT * FROM Game Where UserIdDev == @id)";
+                cmd.Parameters.AddWithValue("id", id);
+                return cmd.CustomReader(ConnectionString, x => DbMappers.ToGame(x));
+            }
+        }
+
         /// <summary>
         /// Retrieves a game record from the 'Game' table based on the specified identifier.
         /// </summary>

@@ -10,5 +10,6 @@ namespace DAL.Interfaces
 {
     public interface IGameListRepository : IRepository<int, GameList>
     {
+        
     }
 }

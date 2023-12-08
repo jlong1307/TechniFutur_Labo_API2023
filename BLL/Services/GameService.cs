@@ -89,9 +89,9 @@ namespace BLL.Services
             return _gameRepository.GetAll().Select(x => x.ToGameDTO());
         }
 
-        public IEnumerable<GameDTO> GetAll(int id)
+        public IEnumerable<GameDTO> GetAllById(int id)
         {
-            return _gameRepository.GetAll().Where(x => x.UserIdDev == id).Select(x => x.ToGameDTO());
+            return _gameRepository.GetAllById(id).Select(x => x.ToGameDTO());
         }
 
         /// <summary>
@@ -112,6 +112,7 @@ namespace BLL.Services
             return game.ToGameDTO();
         }
 
+        
         /// <summary>
         /// Updates an existing game based on the provided UpdateGameForm.
         /// </summary>
@@ -135,6 +136,18 @@ namespace BLL.Services
             game.Status = form.Status;
 
             // Update the game in the repository and return the result.
+            return _gameRepository.Update(game);
+        }
+
+        public bool UpdateVersion(int id, UpdateVersionForm form)
+        {
+            Game game = _gameRepository.GetById(id);
+
+            if (game is null)
+                return false;
+
+            game.Version = form.Version;
+
             return _gameRepository.Update(game);
         }
     }

@@ -11,5 +11,6 @@ namespace DAL.Interfaces
     public interface IGameRepository : IRepository<int, Game>
     {
         public double GetPrice(string title);
+        public IEnumerable<Game> GetAllById(int id);
     }
 }

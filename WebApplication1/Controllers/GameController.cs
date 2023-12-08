@@ -44,7 +44,7 @@ namespace ApiSteam.Controllers
             var claim = User.Claims.Single(x => x.Type == ClaimTypes.NameIdentifier);
             int id = Convert.ToInt32(claim.Value);
 
-            return Ok(_gameService.GetAll(id));
+            return Ok(_gameService.GetAllById(id));
         }
 
         /// <summary>
